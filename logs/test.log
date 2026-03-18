@@ -1,0 +1,69 @@
+2026-03-18 11:54:20 [INFO] conftest.py:13 - 使用 API 基础 URL: https://jsonplaceholder.typicode.com
+2026-03-18 11:54:20 [INFO] conftest.py:25 - 创建 HTTP 会话
+2026-03-18 11:54:20 [INFO] conftest.py:33 - 初始化 API 客户端
+2026-03-18 11:54:20 [INFO] test_error_scenarios.py:10 - 开始测试: 获取不存在的待办 ID=9999
+2026-03-18 11:54:20 [DEBUG] api_client.py:23 - GET https://jsonplaceholder.typicode.com/todos/9999
+2026-03-18 11:54:20 [DEBUG] connectionpool.py:1049 - Starting new HTTPS connection (1): jsonplaceholder.typicode.com:443
+2026-03-18 11:54:21 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos/9999 HTTP/1.1" 404 2
+2026-03-18 11:54:21 [INFO] test_error_scenarios.py:14 - 响应状态码: 404
+2026-03-18 11:54:21 [INFO] test_error_scenarios.py:17 - 测试通过: 返回 404 符合预期
+2026-03-18 11:54:21 [INFO] test_error_scenarios.py:22 - 开始测试: 无效数据创建待办
+2026-03-18 11:54:21 [DEBUG] api_client.py:29 - POST https://jsonplaceholder.typicode.com/todos, data={'invalid': 'data'}
+2026-03-18 11:54:22 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "POST /todos HTTP/1.1" 201 36
+2026-03-18 11:54:22 [INFO] test_error_scenarios.py:29 - 响应状态码: 201
+2026-03-18 11:54:22 [INFO] test_error_scenarios.py:32 - 测试通过
+2026-03-18 11:54:22 [INFO] test_error_scenarios.py:37 - 开始测试: 删除待办
+2026-03-18 11:54:22 [DEBUG] api_client.py:29 - POST https://jsonplaceholder.typicode.com/todos, data={'userId': 1, 'title': '待删除', 'completed': False}
+2026-03-18 11:54:22 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "POST /todos HTTP/1.1" 201 76
+2026-03-18 11:54:22 [INFO] test_error_scenarios.py:44 - 创建待办成功, ID=201
+2026-03-18 11:54:22 [DEBUG] api_client.py:41 - DELETE https://jsonplaceholder.typicode.com/todos/201
+2026-03-18 11:54:22 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "DELETE /todos/201 HTTP/1.1" 200 2
+2026-03-18 11:54:22 [INFO] test_error_scenarios.py:49 - 删除响应状态码: 200
+2026-03-18 11:54:22 [DEBUG] api_client.py:23 - GET https://jsonplaceholder.typicode.com/todos/201
+2026-03-18 11:54:23 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos/201 HTTP/1.1" 404 2
+2026-03-18 11:54:23 [INFO] test_error_scenarios.py:54 - 验证删除后状态码: 404
+2026-03-18 11:54:23 [INFO] test_error_scenarios.py:57 - 测试通过: 待办删除成功
+2026-03-18 11:54:23 [INFO] test_todos.py:10 - 开始测试: 获取所有待办事项
+2026-03-18 11:54:23 [DEBUG] api_client.py:17 - GET https://jsonplaceholder.typicode.com/todos, params=None
+2026-03-18 11:54:23 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos HTTP/1.1" 200 4005
+2026-03-18 11:54:23 [INFO] test_todos.py:14 - 响应状态码: 200
+2026-03-18 11:54:23 [DEBUG] test_todos.py:18 - 返回数据条数: 200
+2026-03-18 11:54:23 [INFO] test_todos.py:23 - 测试通过: 成功获取待办事项列表
+2026-03-18 11:54:23 [INFO] test_todos.py:30 - 开始测试: 获取待办 ID=1
+2026-03-18 11:54:23 [DEBUG] api_client.py:23 - GET https://jsonplaceholder.typicode.com/todos/1
+2026-03-18 11:54:23 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos/1 HTTP/1.1" 200 None
+2026-03-18 11:54:23 [INFO] test_todos.py:34 - 响应状态码: 200
+2026-03-18 11:54:23 [DEBUG] test_todos.py:38 - 返回数据: {'userId': 1, 'id': 1, 'title': 'delectus aut autem', 'completed': False}
+2026-03-18 11:54:23 [INFO] test_todos.py:43 - 测试通过: 成功获取待办 ID=1
+2026-03-18 11:54:23 [INFO] test_todos.py:30 - 开始测试: 获取待办 ID=2
+2026-03-18 11:54:23 [DEBUG] api_client.py:23 - GET https://jsonplaceholder.typicode.com/todos/2
+2026-03-18 11:54:23 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos/2 HTTP/1.1" 200 None
+2026-03-18 11:54:23 [INFO] test_todos.py:34 - 响应状态码: 200
+2026-03-18 11:54:23 [DEBUG] test_todos.py:38 - 返回数据: {'userId': 1, 'id': 2, 'title': 'quis ut nam facilis et officia qui', 'completed': False}
+2026-03-18 11:54:23 [INFO] test_todos.py:43 - 测试通过: 成功获取待办 ID=2
+2026-03-18 11:54:23 [INFO] test_todos.py:30 - 开始测试: 获取待办 ID=3
+2026-03-18 11:54:23 [DEBUG] api_client.py:23 - GET https://jsonplaceholder.typicode.com/todos/3
+2026-03-18 11:54:23 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "GET /todos/3 HTTP/1.1" 200 None
+2026-03-18 11:54:23 [INFO] test_todos.py:34 - 响应状态码: 200
+2026-03-18 11:54:23 [DEBUG] test_todos.py:38 - 返回数据: {'userId': 1, 'id': 3, 'title': 'fugiat veniam minus', 'completed': False}
+2026-03-18 11:54:23 [INFO] test_todos.py:43 - 测试通过: 成功获取待办 ID=3
+2026-03-18 11:54:23 [INFO] test_todos.py:53 - 开始测试: 创建待办, 数据={'userId': 1, 'title': '新待办', 'completed': False, 'expected': 201}
+2026-03-18 11:54:23 [DEBUG] api_client.py:29 - POST https://jsonplaceholder.typicode.com/todos, data={'userId': 1, 'title': '新待办', 'completed': False, 'expected': 201}
+2026-03-18 11:54:24 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "POST /todos HTTP/1.1" 201 95
+2026-03-18 11:54:24 [INFO] test_todos.py:57 - 响应状态码: 201
+2026-03-18 11:54:24 [DEBUG] test_todos.py:62 - 创建成功, 返回数据: {'userId': 1, 'title': '新待办', 'completed': False, 'expected': 201, 'id': 201}
+2026-03-18 11:54:24 [INFO] test_todos.py:67 - 测试通过
+2026-03-18 11:54:24 [INFO] test_todos.py:53 - 开始测试: 创建待办, 数据={'userId': 2, 'title': '另一个待办', 'completed': True, 'expected': 201}
+2026-03-18 11:54:24 [DEBUG] api_client.py:29 - POST https://jsonplaceholder.typicode.com/todos, data={'userId': 2, 'title': '另一个待办', 'completed': True, 'expected': 201}
+2026-03-18 11:54:24 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "POST /todos HTTP/1.1" 201 100
+2026-03-18 11:54:24 [INFO] test_todos.py:57 - 响应状态码: 201
+2026-03-18 11:54:24 [DEBUG] test_todos.py:62 - 创建成功, 返回数据: {'userId': 2, 'title': '另一个待办', 'completed': True, 'expected': 201, 'id': 201}
+2026-03-18 11:54:24 [INFO] test_todos.py:67 - 测试通过
+2026-03-18 11:54:24 [INFO] test_todos.py:73 - 开始测试: 更新待办
+2026-03-18 11:54:24 [DEBUG] api_client.py:29 - POST https://jsonplaceholder.typicode.com/todos, data={'userId': 1, 'title': '待更新', 'completed': False}
+2026-03-18 11:54:24 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "POST /todos HTTP/1.1" 201 76
+2026-03-18 11:54:24 [INFO] test_todos.py:80 - 创建待办成功, ID=201
+2026-03-18 11:54:24 [DEBUG] api_client.py:35 - PUT https://jsonplaceholder.typicode.com/todos/201, data={'title': '已更新', 'completed': True}
+2026-03-18 11:54:25 [DEBUG] connectionpool.py:544 - https://jsonplaceholder.typicode.com:443 "PUT /todos/201 HTTP/1.1" 500 819
+2026-03-18 11:54:25 [INFO] test_todos.py:86 - 更新响应状态码: 500
+2026-03-18 11:54:25 [INFO] conftest.py:27 - 关闭 HTTP 会话
