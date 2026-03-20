@@ -21,6 +21,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'  # 自动缓存 pip 依赖
+    - name: 安装 Docker Compose（如果必要）
+      run: |
+        docker compose version  # 新版 Docker 用这个命令
+        # 如果上面失败，再安装传统 docker-compose
+        if ! command -v docker-compose &> /dev/null; then
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+        fi
 
     - name: Install dependencies
       run: |
