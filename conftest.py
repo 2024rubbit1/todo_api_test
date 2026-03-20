@@ -1,10 +1,99 @@
+import socket
+import time
 import pytest
 import logging
 import os
 import json
 from utils.api_client import TodoAPIClient
-
+import subprocess
 logger = logging.getLogger(__name__)
+
+import mysql.connector
+from mysql.connector import Error
+import time
+
+
+def wait_for_mysql(port=3307, host="localhost", timeout=60):
+    """等待 MySQL 真正就绪（能执行查询）"""
+    import mysql.connector
+    from mysql.connector import Error
+
+    start_time = time.time()
+    last_error = None
+
+    while time.time() - start_time < timeout:
+        try:
+            # 尝试建立真实连接并执行查询
+            conn = mysql.connector.connect(
+                host=host,
+                port=port,
+                user='root',
+                password='123456',
+                connection_timeout=3
+            )
+            cursor = conn.cursor()
+            cursor.execute("SELECT 1")
+            result = cursor.fetchone()
+            cursor.close()
+            conn.close()
+            if result and result[0] == 1:
+                print(f"✅ MySQL 已就绪，返回结果: {result[0]}")
+                return True
+        except Error as e:
+            last_error = e
+            print(f"⏳ MySQL 未就绪: {e}")
+            time.sleep(2)
+
+    # 如果超时，打印容器状态帮助诊断
+    print("=" * 50)
+    print("MySQL 超时未就绪，检查容器状态：")
+    import subprocess
+    subprocess.run(["docker", "ps", "|", "findstr", "mysql"])
+    print("\nMySQL 容器日志最后20行：")
+    subprocess.run(["docker", "logs", "--tail", "20", "todo-mysql"])
+    print("=" * 50)
+
+def wait_for_port(port, host="localhost", timeout=30):
+    """等待指定端口可连接"""
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(2)
+            result = sock.connect_ex((host, port))
+            sock.close()
+            if result == 0:
+                logger.info(f"✅ 端口 {port} 已就绪")
+                return True
+        except Exception:
+            pass
+        time.sleep(1)
+    raise TimeoutError(f"端口 {port} 在 {timeout} 秒内未能就绪")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def docker_services():
+    """自动启动 Docker Compose 服务，测试结束后自动停止"""
+    logger.info("🚀 启动 Docker Compose 服务...")
+
+    # 启动所有服务（-d 后台运行）
+    subprocess.run(["docker-compose", "up", "-d"], check=True)
+    try:
+        # 等待 MySQL (3307) 和 Redis (6379) 就绪
+        wait_for_mysql(3307)
+        wait_for_port(6379)
+        logger.info("✅ 所有服务已就绪，开始执行测试")
+
+        yield  # 执行测试
+
+    finally:
+        # 无论测试成功还是失败，都要清理
+        logger.info("🧹 停止 Docker Compose 服务...")
+        subprocess.run(["docker-compose", "stop"], check=True)
+        # logger.info("🧹 清理 Docker Compose 服务...")
+        # subprocess.run(["docker-compose", "down"], check=True)
+        # , "-v"
+
 
 @pytest.fixture(scope="session")
 def base_url():
